@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Dashboard {% endblock title %}
+
+
+
+{% block content %}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+{% include "accounts/dashboard_sideber.html" %}
+        </div>
+        <div class="col-md-9">
+    <div id="dass" >
+            <table class="table table-bordered">
+                <tr>
+                    <th><H4 class="fw-bolder">Logded in as :  {{ user.full_name }}</H4></th>
+                </tr>
+                <th>
+                   <div class="row">
+                     <div class="col m-3 border text-center p-5 rounded-3">
+                       <h4 class="display-6">Total Order</h4>
+                       <p class="display-3">{{ orders_count }}</p>
+                       <a href="{% url 'my_orders' %}" style="font-size: 1.5rem">View all orders</a>
+                     </div>
+                     <div class="col m-3 border  text-center p-5 rounded-3">
+                       <img class="rounded-circle" src="{{ user_profile.profile_picture.url }}" width="50px" alt="Picture">
+                       <h4>{{user.email}}</h4>
+                       <p style="font-size: 1.5rem">{{user.phone_number}}</p>
+                      </div>
+                   </div>
+                </th>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+
+{% endblock content%}

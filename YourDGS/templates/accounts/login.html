@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Login {% endblock title %}
+
+
+
+{% block content %}
+
+
+
+{% if request.GET.command == 'verification' %}
+        <div class="alert alert-primary container mt-5 text-center" role="alert" style="font-size: 1.5rem;">
+        Thank you for registering with us. we have send you a verification email
+            address [{{request.GET.email}}]
+            <br><br>
+            Already verified? <a href="{% url 'login' %}">Login</a>
+       </div>
+{% else %}
+<!-- ============================ COMPONENT LOGIN   ================================= -->
+	<div class="card mx-auto" style="max-width: 35rem; margin-top:5rem;">
+
+      <div class="card-body">
+      <h4 class="card-title mb-4" style="font-size: 2rem" >Sign in</h4>
+
+      {% include 'includes/alerts.html'%}
+
+      <form action="{% url 'login' %}" method="POST" style="font-size: 1.5rem">
+         {% csrf_token %}
+          <div class="form-group mb-3">
+			 <input name="email" type="email" class="form-control" placeholder="Email Address" style="font-size: 1.5rem" >
+          </div> <!-- form-group// -->
+
+          <div class="form-group mb-3">
+			<input name="password" type="password" class="form-control" placeholder="Password" style="font-size: 1.5rem" >
+          </div> <!-- form-group// -->
+
+          <div class="form-group mb-3">
+          	<a href="{% url 'forgotPassword' %}" class="float-right">Forgot password?</a>
+          </div> <!-- form-group form-check .// -->
+
+          <div class="form-group mb-3">
+              <button type="submit" class="btn btn-danger btn-block" style="font-size: 1.5rem"> Login  </button>
+          </div> <!-- form-group// -->
+      </form>
+      </div> <!-- card-body.// -->
+    </div> <!-- card .// -->
+
+     <p class="text-center mt-4" style="font-size: 1.5rem;">Don't have account? <a href="{% url 'register' %}" ">Sign up</a></p>
+     <br><br>
+<!-- ============================ COMPONENT LOGIN  END.// ================================= -->
+
+{% endif %}
+
+{% endblock content%}

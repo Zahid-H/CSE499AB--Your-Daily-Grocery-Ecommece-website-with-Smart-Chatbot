@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Dashboard {% endblock title %}
+
+
+
+{% block content %}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+{% include "accounts/dashboard_sideber.html" %}
+        </div>
+        <div class="col-md-9">
+{% include 'includes/alerts.html' %}
+
+              <div class="card mb-5">
+            <header class="card-header">
+                <strong class="d-inline-block mr-3 " style="font-size: 1.5rem">Edit Your Profile.</strong>
+            </header>
+            <div class="card-body">
+                <div class="text-right">
+                    <img src="{{ user_profile.profile_picture.url }}" alt="Profile Picture" width="100" style="border-radius:50px;">
+                </div>
+            </div>
+                  </div>
+<!--          start-->
+                    <form action="{% url 'edit_profile' %}" method="POST" enctype="multipart/form-data" style="font-size: 1.5rem">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label>First Name</label>
+                                {{user_form.first_name}}
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Last Name</label>
+                                {{user_form.last_name}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label>Phone Number</label>
+                                {{user_form.phone_number}}
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Profile Picture</label>
+                                {{profile_form.profile_picture}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Address Line 1</label>
+                            {{profile_form.address_line_1}}
+                        </div>
+                        <div class="form-group">
+                            <label>Address Line 2</label>
+                            {{profile_form.address_line_2}}
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label>City</label>
+                                {{profile_form.city}}
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>State</label>
+                                {{profile_form.state}}
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Zip Code</label>
+                                {{profile_form.pin_code}}
+                            </div>
+                        </div>
+                         <br>
+                        <input style="font-size: 10px" type="submit" value="Save Profile" class="btn btn-success">
+                    </form>
+<!--            end-->
+
+
+</div>
+</div>
+</div>
+
+{% endblock content%}

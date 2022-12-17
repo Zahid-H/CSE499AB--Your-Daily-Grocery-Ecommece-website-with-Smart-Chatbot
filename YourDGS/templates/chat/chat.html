@@ -1,0 +1,202 @@
+{% extends "basetwo.html" %}
+{% load static %}
+{% block title %} Chat {% endblock title %}
+
+
+
+{% block content %}
+
+<div class="main">
+    <div class="container ">
+        <div class="chat-log" id="maindiv">
+
+            <!--      <div class="chat-log__item" id="">-->
+            <!--        <h3 class="chat-log__author">Felipe</h3>-->
+            <!--        <div class="chat-log__message">Yo man</div>-->
+            <!--      </div>-->
+
+            <!--      <div class="chat-log__item chat-log__item">-->
+            <!--        <h3 class="chat-log__author">Fabrício <small>14:30</small></h3>-->
+            <!--        <div class="chat-log__message">BRB</div>-->
+            <!--      </div>-->
+             {{stock.name}}
+            {% for i in stock %}
+
+            {% if i.name in request.get_full_path %}
+
+
+            <div class="chat-log__item chat-log__item--own" >
+                <h3 class="chat-log__author">{{i.name}}</h3>
+                <div class="chat-log__message">{{i.message}}</div>
+                <small>{{i.created_at}}</small>
+            </div>
+
+            {% else %}
+            <div class="chat-log__item" >
+                <h3 class="chat-log__author">{{i.name}}</h3>
+                <div class="chat-log__message">{{i.message}}</div>
+                <small>{{i.created_at}}</small>
+
+            </div>
+
+            {%endif%}
+
+            {%endfor%}
+
+        </div>
+
+
+    </div>
+    <div class="chat-form">
+        <div class="container ">
+            <form class="form-horizontal" id="message-form">
+                <div class="row">
+                    <div class="col-sm-10 col-xs-8">
+                        <input type="text" class="form-control" placeholder="Message" id="message" required
+                            style="font-size: 1.5rem" />
+                    </div>
+                    <div class="col-sm-2 col-xs-4">
+                        
+                        <button type="submit" class="btn btn-danger btn-block" style="font-size: 1.5rem">Send</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content%}
+
+
+{% block customjs %}
+
+
+<script>
+
+
+    // connection mal
+    const url = 'ws://localhost:8000/ws/chat/';
+    const ws = new WebSocket(url);
+    ws.onopen = function (event) {
+        // server connection established hoyle fired hoy
+
+        //console.log('Cannect is opened');
+        //ws.send('Thanks for connect')
+        //console.log(event)
+        window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" });
+    }
+
+    ws.onmessage = function (event) {
+        //akmatro message receive hole run hoi
+        //       console.log('Message is recive');
+        //       console.log(event)
+        // const ul = document.getElementById('message-list');
+        // const li = document.createElement('li');
+        // li.append(document.createTextNode(event.data))
+        // ul.append(li);
+
+        //creating
+        window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" });
+        if (event.data.split('~')[1] != window.location.pathname.split('/')[2]) {
+            const maindiv = document.getElementById('maindiv');
+            const newDiv = document.createElement("div");
+            newDiv.classList.add("chat-log__item")
+            // newDiv.classList.add("chat-log__item--own")
+
+            const h3 = document.createElement('h1')
+            h3.classList.add("chat-log__author")
+            h3.appendChild(document.createTextNode(event.data.split('~')[1]));
+            newDiv.append(h3)
+
+            const newDiv2 = document.createElement("div");
+            newDiv2.classList.add("chat-log__message")
+            newDiv2.innerHTML = event.data.split('~')[0]
+            newDiv.append(newDiv2)
+
+           const small = document.createElement('SMALL')
+            // time
+            var today = new Date();
+            var time = new Date();
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                "Jul", "Aug", "Sepr", "Oct", "Nov", "Dec"
+            ];
+            var date = monthNames[today.getMonth()] + ', ' + today.getDate() + ', ' + today.getFullYear();
+            var date_time = `${date}, ${time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}.`
+            //time end
+            small.appendChild(document.createTextNode(date_time))
+            newDiv.append(small)
+
+            maindiv.append(newDiv)
+            let sc=document.body.scrollHeight+500
+            window.scroll(0, sc);
+
+        }
+        else {
+            const maindiv = document.getElementById('maindiv');
+            const newDiv = document.createElement("div");
+            newDiv.classList.add("chat-log__item")
+            newDiv.classList.add("chat-log__item--own")
+
+            const h3 = document.createElement('h1')
+            h3.classList.add("chat-log__author")
+            h3.appendChild(document.createTextNode(event.data.split('~')[1]));
+            newDiv.append(h3)
+
+            const newDiv2 = document.createElement("div");
+            newDiv2.classList.add("chat-log__message")
+            newDiv2.innerHTML = event.data.split('~')[0]
+            newDiv.append(newDiv2)
+
+            const small = document.createElement('SMALL')
+            // time
+            var today = new Date();
+            var time = new Date();
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                "Jul", "Aug", "Sepr", "Oct", "Nov", "Dec"
+            ];
+            var date = monthNames[today.getMonth()] + ', ' + today.getDate() + ', ' + today.getFullYear();
+            var date_time = `${date}, ${time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}.`
+            //time end
+            small.appendChild(document.createTextNode(date_time))
+            newDiv.append(small)
+
+            maindiv.append(newDiv)
+
+            let sc=document.body.scrollHeight+500
+            window.scroll(0, sc)
+
+        }
+
+    }
+
+    ws.onclose = function (event) {
+        console.log('Cannect is close');
+        console.log(event)
+
+    }
+
+    ws.onerror = function (event) {
+        console.log('Somthing went error');
+        console.log(event)
+
+    }
+    // connection mal end
+
+    const messageForm = document.getElementById('message-form')
+    messageForm.addEventListener('submit', sendMessage)
+
+    function sendMessage(e) {
+
+        if (e.preventDefault) {
+            e.preventDefault();
+        }
+        ws.send(document.getElementById('message').value + "~" + window.location.pathname.split('/')[2]);
+        messageForm.reset();
+        window.scrollTo({ left: 0, top: document.scrollHeight, behavior: "smooth" });
+
+        return false;
+
+    }
+
+</script>
+{% endblock customjs %}

@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Cart {% endblock title %}
+
+
+
+
+
+{% block content %}
+<div class="container my-5" style="font-size: 1.5rem;">
+  <div class="row">
+<!-- cart start -->
+
+    <h1 class="text-center mb-5 fw-bold" style="color: rgb(14, 13, 13)">Shopping Cart</h1>
+    <div class="col-sm-8" style="border: 1px solid gray">
+    <div class="card" >
+     <div class="card-body mb-3 mt-5">
+
+      <h1>Cart :</h1>
+         <hr>
+         <hr>
+
+         {% if not cart_items %}
+         <h2 class="text-center">Your Shopping Cart is Empty</h2>
+         <br>
+         <div class="text-center">
+             <a href="{% url 'store' %}" class="btn btn-warning" style="font-size: 1.2rem">Continue Shopping</a>
+         </div>
+          <hr>
+         <hr>
+         {% else %}
+      <!-- for loop -->
+         {% for cart_item in cart_items %}
+      <div class="row">
+       <div class="col-sm-3 text-center align-self-center"><img src="{{cart_item.product.image.url}}" alt="" srcset="" class="img-fluid img-thumbnail shadow-sm"  style="height: 10rem;width: 15rem"> </div>
+       <div class="col-sm-9">
+        <div>
+         <a href="{{cart_item.product.get_url}}" style="color: rgb(201, 12, 49);font-weight: bold ; font-size:1.2rem" >{{cart_item.product.product_name}}</a>
+         <div class="my-3">
+          <label  style="font-size: 1.2rem;">Quantity:</label>
+
+             <div class="row">
+                 <div class="col-1">
+                     <a href="{% url 'remove_cart' cart_item.product.id cart_item.id %}" class="minus-cart btn  btn-warning" style="font-size: 1rem;"><i class="fas fa-minus-square fa-lg"></i></a>
+                 </div>
+
+                 <div class="col-1 d-flex" style="justify-content: center">
+                     <span> {{cart_item.quantity}}</span>
+                 </div>
+
+                 <div class="col-1">
+                                  	<form action="{% url 'add_cart' cart_item.product.id %}" method="POST">
+									{% csrf_token %}
+									{% for item in cart_item.variations.all %}
+										<input type="hidden" name="{{ item.variation_category | lower }}" value="{{ item.variation_value | capfirst }}">
+									{% endfor %}
+				                  <button class="plus-cart btn  btn-warning" type="submit" id="button-minus" style="font-size: 1rem;"> <i class="fas fa-plus-square fa-lg"></i> </button>
+				               </form>
+                 </div>
+
+              </div>
+
+
+         </div>
+            <div class="mb-2">
+                  {% if cart_item.variations.all %}
+						{% for item in cart_item.variations.all %}
+							{{ item.variation_category | capfirst }} : {{ item.variation_value | capfirst }} <br>
+						{% endfor %}
+					{% endif %}
+            </div>
+
+         <div class="d-flex justify-content-between">
+          <a href="{% url 'remove_cart_item' cart_item.product.id cart_item.id %}" class="btn btn-sm btn-danger mr-3 remove-cart" style="font-size: 1.2rem;" onclick="return confirm('Are you sure want to delete this item')">Remove item </a>
+          <p class="mb-0"><span><strong>TK:{{cart_item.sub_total}}</strong></span></p>
+         </div>
+        </div>
+       </div>
+      </div>
+         <hr>
+         <hr>
+         {% endfor %}
+<!-- for loop end -->
+         {% endif %}
+
+     </div>
+    </div>
+  </div>
+  <!-- cart end-->
+
+
+
+
+
+  <!-- count start -->
+  <div class="col-sm-4">
+    <div class="card" >
+     <div class="card-body mt-5 mb-5">
+       <h3>The Total Amount of</h3>
+       <ul class="list-group">
+        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0  pb-0">Amount<span>Tk. <span id="amount"> {{total}} </span></span></li>
+        <li class="list-group-item d-flex justify-content-between align-items-center px-0 border-0 border-bottom" >Shipping<span>Tk. 50.00</span></li>
+        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+         <div>
+            <strong>Total</strong> <small>(including VAT)</small>
+          </div>
+          <span><strong>Tk. <span id="totalamount">{{total|add:50 }}</span> </strong></span>
+        </li>
+       </ul>
+         <div class="d-grid"><a href="{% url 'store' %}" class="btn btn-danger mb-3" style="font-size: 1.3rem;">Continue Shopping</a></div>
+       <div class="d-grid"><a href="{% url 'checkout' %}" class="btn btn-success" style="font-size: 1.3rem;">Checkout</a></div>
+     </div>
+    </div>
+   </div>
+  </div>
+ </div>
+
+   <!-- count end -->
+
+ <!-- we accept part -->
+
+ <div class="container">
+  <div class="row">
+   <div class="col-sm-8">
+    <div class="card">
+     <div class="card-body">
+       <h5 class="mb-4 fw-bolder">We accept</h5>
+       <img src="{% static 'images/payments.png' %}" alt="" class="img-fluid">
+     </div>
+   </div>
+   </div>
+  </div>
+ </div>
+
+
+
+
+{% endblock content%}

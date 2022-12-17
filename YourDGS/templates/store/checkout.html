@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Checkout {% endblock title %}
+
+
+
+
+
+{% block content %}
+
+<div class="container my-5" style="font-size: 1.5rem;">
+
+<!--                      <form action="{% url 'place_order' %}" method="POST"  >-->
+<form action="{% url 'place_order' %}" method="POST"  >
+
+  <div class="row" >
+
+
+<!-- cart start -->
+
+    <h1 class="text-center mb-5 fw-bold" style="color: crimson">Checkout</h1>
+    <div class="col-sm-8" style="border: 1px solid gray">
+    <div class="card" >
+     <div class="card-body mb-3 mt-5">
+
+      <h1>Billing Address</h1>
+<hr>
+         <hr>
+
+<!-- for loop end -->       {% csrf_token %}
+
+                               <div class="row">
+                                <div class="col form-group">
+                                    <label >First Name</label>
+                                        <input type="text" name="first_name" class="form-control" required>
+                                </div>
+                                <div class="col form-group">
+                                    <label >Last Name</label>
+                                    <input type="text" name="last_name" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                   <div class="col form-group">
+                                    <label >Phone</label>
+                                    <input type="tel" name="phone" class="form-control" required>
+                                </div>
+                                <div class="col form-group">
+                                    <label >Email</label>
+                                    <input type="email" name="email"  class="form-control" required>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col form-group">
+                                    <label >Address Line 1</label>
+                                    <input type="text" name="address_line_1" class="form-control" required>
+                                </div>
+                                <div class="col form-group">
+                                    <label >Address Line 2</label>
+                                    <input type="tel" name="address_line_2" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                               <div class="col form-group">
+                                    <label >Pin Code</label>
+                                    <input type="number" name="pin_code" class="form-control" required>
+                                </div>
+                                <div class="col form-group">
+                                    <label >State</label>
+                                    <input type="text" name="state" class="form-control" required>
+                                </div>
+                                <div class="col form-group">
+                                    <label >City</label>
+                                    <input type="text" name="city" class="form-control" required>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col form-group">
+                                    <label >Order Note</label>
+                                    <textarea type="text" rows="2" name="order_note" class="form-control" required></textarea>
+                                </div>
+                            </div>
+
+
+
+<!-- for loop end -->
+
+
+     </div>
+    </div>
+  </div>
+  <!-- cart end-->
+
+  <!-- count start -->
+  <div class="col-sm-4">
+    <div class="card" >
+     <div class="card-body mt-5 mb-5">
+
+<!--      table start-->
+
+   <table class="table table-borderless table-shopping-cart" style="font-size: 1.5rem;">
+                            <thead class="text-muted">
+                                <tr class="small text-uppercase">
+                                    <th scope="col">Product</th>
+                                    <th scope="col" width="120">Quantity</th>
+                                    <th scope="col" width="120">Price</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                             {% for cart_item in cart_items %}
+
+                                <tr>
+                                    <td>
+                                        <figure class="itemside align-items-center">
+                                            <div class="aside"><img style="max-height: 5rem; max-width: 5rem;" src="{{ cart_item.product.image.url }}"
+                                                    class="img-sm img-fluid"></div>
+                                            <figcaption class="info">
+                                                <a href="{{ cart_item.product.get_url }}"
+                                                    class="title text-dark">{{ cart_item.product.product_name }}</a>
+                                                <p class="text-muted small">
+
+                                                    {% if cart_item.variations.all %}
+                                                    {% for item in cart_item.variations.all %}
+                                                    {{ item.variation_category | capfirst }} :
+                                                    {{ item.variation_value | capfirst }} <br>
+                                                    {% endfor %}
+                                                    {% endif %}
+
+
+                                                </p>
+                                            </figcaption>
+                                        </figure>
+                                    </td>
+                                    <td>
+                                        <!-- col.// -->
+                                        <label >{{cart_item.quantity}}</label>
+                                    </td>
+                                    <td>
+                                        <div class="price-wrap">
+                                            <var class="price">Tk {{ cart_item.sub_total }}</var> <br>
+                                            <small class="text-muted"> Tk {{ cart_item.product.price }} each </small>
+                                        </div> <!-- price-wrap .// -->
+                                    </td>
+
+                                </tr>
+
+                           {% endfor %}
+
+                            </tbody>
+                        </table>
+ <!--      table end-->
+
+
+
+         <div class="d-grid"><a href="{% url 'store' %}" class="btn btn-danger mb-3" style="font-size: 1.3rem;">Continue Shopping</a></div>
+       <div class="d-grid"><button type="submit"  value="Submit" class="btn btn-success" style="font-size: 1.3rem;">Place Order</button></div>
+
+
+
+     </div>
+    </div>
+   </div>
+
+
+  </div>
+</form>
+ </div>
+
+   <!-- count end -->
+
+ <!-- we accept part -->
+
+ <div class="container">
+  <div class="row">
+   <div class="col-sm-8">
+    <div class="card">
+     <div class="card-body">
+       <h5 class="mb-4 fw-bolder">We accept</h5>
+       <img src="{% static 'images/payments.png' %}" alt="" class="img-fluid">
+     </div>
+   </div>
+   </div>
+  </div>
+ </div>
+
+
+
+
+
+{% endblock content%}
