@@ -5,8 +5,8 @@ install python version 3.8
 Install  pip install -r requirements. txt
 Run command in terminal python manage.py runserver
 
-#Your Daily Grocery User Interface!
-[h](https://user-images.githubusercontent.com/83463788/211340892-db8a0152-6a50-4b08-8f85-ba2472e18165.png)
+#Your Daily Grocery User Interface
+![h](https://user-images.githubusercontent.com/83463788/211340892-db8a0152-6a50-4b08-8f85-ba2472e18165.png)
 ![cata](https://user-images.githubusercontent.com/83463788/211340935-de80efaa-620d-488e-959a-4f5c138e06f8.png)
 ![product view](https://user-images.githubusercontent.com/83463788/211340975-0dbb0358-bea7-430e-9c7f-8b4dfdc9c2b4.png)
 ![shoping](https://user-images.githubusercontent.com/83463788/211341012-8176223c-5358-4a9c-aeac-2f9f2349c855.png)
