@@ -1,8 +1,11 @@
 # CSE499AB-Your-Daily-Grocery-Ecommece-website-with-Smart-Chatbot
 A compleate Ecommerce Website with Smart Chatbot Assistant using python Djnago and sslcommerz payment gateway API
+sslcommerz payment gateway API https://developer.sslcommerz.com/
+Chatbot was build using Google dialogflow https://cloud.google.com/dialogflow/docs
 #Requirement 
-install python version 3.8
-Install  pip install -r requirements. txt
+Install python version 3.8
+open folder in VScode
+Install  pip install -r requirements. txt in terminal 
 Run command in terminal python manage.py runserver
 
 #Your Daily Grocery User Interface
