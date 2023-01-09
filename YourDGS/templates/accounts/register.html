@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Register {% endblock title %}
+
+
+
+
+
+
+
+
+
+
+
+{% block content %}
+
+
+
+
+<!-- ============================ COMPONENT REGISTER   ================================= -->
+	<div class="card mx-auto" style="max-width:47rem; margin-top:40px;">
+      <article class="card-body">
+		<header class="mb-4"><h4 class="card-title" style="font-size: 2rem">Sign up</h4></header>
+
+		  {% include 'includes/alerts.html'%}
+
+		<form action="{% url 'register' %}" method="POST" style="font-size: 1.5rem">
+			   {% csrf_token %}
+				<div class="row">
+
+					<div class="col-md-6 form-group">
+						<label>First name</label>
+					  	{{form.first_name}}
+					</div> <!-- form-group end.// -->
+
+					<div class="col-md-6 form-group">
+						<label>Last name</label>
+					     {{form.last_name}}
+					</div> <!-- form-group end.// -->
+
+                    <div class="col-md-6 form-group">
+						<label>Email</label>
+					  	{{form.email}}
+					</div> <!-- form-group end.// -->
+
+                     <div class="col-md-6 form-group">
+						<label>Phone</label>
+					  	{{form.phone_number}}
+					</div> <!-- form-group end.// -->
+
+                    <div class="col-md-6 form-group">
+						<label>Password</label>
+					  	{{form.password}}
+					</div> <!-- form-group end.// -->
+
+                    <div class="col-md-6 form-group">
+						<label>Confirm Password</label>
+					  	{{form.confirm_password}}
+					</div> <!-- form-group end.// -->
+
+				</div> <!-- form-row end.// -->
+
+
+     {% if form.errors %}
+       {% for field in form %}
+           {% for error in field.errors %}
+			<div class="alert alert-danger mt-5 " role="alert">
+            {{ error|escape }}
+         </div>
+           {% endfor %}
+       {% endfor %}
+    {% endif %}
+
+	  {% if form.non_field_errors %}
+       {% for error in form.non_field_errors %}
+		<div class="alert alert-danger mt-5 " role="alert">
+            {{ error }}
+         </div>
+       {% endfor %}
+        {% endif %}
+
+
+
+			    <div class="form-group mt-5">
+			        <button style="font-size: 1.5rem" type="submit" class="btn btn-danger btn-block"> Register  </button>
+			    </div> <!-- form-group// -->
+			</form>
+		</article><!-- card-body.// -->
+    </div> <!-- card .// -->
+    <p style="font-size: 1.5rem" class="text-center mt-4">Have an account? <a href="{% url 'login' %}">Log In</a></p>
+    <br><br>
+<!-- ============================ COMPONENT REGISTER  END.// ================================= -->
+
+
+
+
+{% endblock content%}

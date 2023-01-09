@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Home {% endblock title %}
+
+
+
+
+
+{% block content %}
+
+<!-- product page -->
+<div class="container mt-5" style="font-size: 2rem;">
+  <div class="row gx-5">
+    <div class="col-6">
+      <img style="max-height: 50rem;"  src="{{single_product.image.url}}" alt="" class="img-fluid rounded">
+    </div>
+    <div class="col-1 "></div>
+
+    <div class="col-md-5 ">
+      <div class="mt-5 mt-md-0" >
+<!--      form Start   -->
+        <form action="{% url 'add_cart' single_product.id %}" method="POST">
+      {% csrf_token %}
+      <p class=" text-success">Store / {{single_product.category}} / {{single_product.subcategory}}</p>
+      <h1 class="fw-bolder">{{single_product.product_name}}</h1>
+      <h4 class="text-danger fw-bolder">Price: {{single_product.price}} Tk</h4>
+
+<!--          star start-->
+                  <div class="rating-star">
+                        <span>
+                            <i class="{% if single_product.averageReview >= 1 %} fas fa-star   {% endif %}  " aria-hidden="true"></i>
+                            <i class="{% if single_product.averageReview >= 2 %} fas fa-star   {% endif %}   " aria-hidden="true"></i>
+                            <i class="{% if single_product.averageReview >= 3 %} fas fa-star   {% endif %}  " aria-hidden="true"></i>
+                            <i class="{% if single_product.averageReview >= 4 %} fas fa-star  {% endif %}    " aria-hidden="true"></i>
+                            <i class="{% if single_product.averageReview == 5 %} fas fa-star   {% endif %}   " aria-hidden="true"></i>
+
+                             <i class="{% if single_product.averageReview == 0.5 %} fas fa-star-half  {% endif %}  " aria-hidden="true"></i>
+                             <i class="{% if single_product.averageReview == 1.5 %} fas fa-star-half  {% endif %}  " aria-hidden="true"></i>
+                             <i class="{% if single_product.averageReview == 2.5 %} fas fa-star-half  {% endif %}  " aria-hidden="true"></i>
+                             <i class="{% if single_product.averageReview == 3.5 %} fas fa-star-half  {% endif %}  " aria-hidden="true"></i>
+                             <i class="{% if single_product.averageReview == 4.5 %} fas fa-star-half  {% endif %}  " aria-hidden="true"></i>
+                              <span  class="text-muted">{{single_product.countReview}} Reviews</span>
+                        </span>
+                    </div>
+   <!--          star end-->
+
+      <div>
+        <p class="fw-bolder  "> Description: <span class="fw-normal text-muted">
+          {{single_product.description|safe}}
+              </span>
+        </p>
+      </div>
+
+       {% if single_product.variation_set.colors %}
+      <div class="mb-3">
+        <p class="fw-bolder ">Choose Color</p>
+      <select name="color" class="form-select form-control" aria-label="Default select example" required >
+       <option value="" disabled selected>Select</option>
+	    {% for i in single_product.variation_set.colors %}
+	    <option value="{{ i.variation_value | lower }}">{{ i.variation_value | capfirst }}</option>
+	    {% endfor %}
+      </select>
+      </div>
+
+      <div class="mb-3">
+        <p class="fw-bolder">Select Size</p>
+      <select name="size" class="form-select form-control" aria-label="Default select example" required >
+       <option value="" disabled selected>Select</option>
+		{% for i in single_product.variation_set.sizes %}
+		<option value="{{ i.variation_value | lower }}">{{ i.variation_value | capfirst }}</option>
+		{% endfor %}
+      </select>
+      </div>
+       {% endif %}
+
+      <div class="mt-5">
+        {% if single_product.stock <= 0 %}
+        <h3 class="text-danger fw-bold">Out Of Stock</h3>
+        {% else %}
+
+        <button type="submit" class="btn btn-warning text-black" style="font-size: 1.3rem;">Add To Cart <i class="fa fa-shopping-cart"></i></button>
+
+        {% endif %}
+      </div>
+
+     </form>        <!--      form end-->
+
+    </div>
+    </div>
+
+
+  </div>
+</div>
+
+
+<!--another section-->
+
+<!-- review start -->
+<div class="container mt-5  " style="font-size: 1.5rem;">
+  <br>
+  <h1 class="text-danger fw-bolder text-center">Give Your Review</h1>
+    <h2>Write your review</h2>
+  <form action="{% url 'submit_review' single_product.id %}" method="POST">
+      <label>How do you rate this product?</label>
+      <br>
+
+      <div class="rate">
+        <input type="radio" name="rating" id="rating10" value="5" required /><label for="rating10" title="5"></label>
+        <input type="radio" name="rating" id="rating9" value="4.5" required /><label for="rating9" title="4.5" class="half"></label>
+        <input type="radio" name="rating" id="rating8" value="4" required /><label for="rating8" title="4"></label>
+        <input type="radio" name="rating" id="rating7" value="3.5" required /><label for="rating7" title="3.5" class="half"></label>
+        <input type="radio" name="rating" id="rating6" value="3" required /><label for="rating6" title="3"></label>
+        <input type="radio" name="rating" id="rating5" value="2.5" required /><label for="rating5" title="2.5" class="half"></label>
+        <input type="radio" name="rating" id="rating4" value="2" required /><label for="rating4" title="2"></label>
+        <input type="radio" name="rating" id="rating3" value="1.5" required /><label for="rating3" title="1.5" class="half"></label>
+        <input type="radio" name="rating" id="rating2" value="1" required /><label for="rating2" title="1"></label>
+        <input type="radio" name="rating" id="rating1" value="0.5" required /><label for="rating1" title="0.5" class="half"></label>
+    </div>
+
+       {% csrf_token %}
+    <div class="form-group">
+      <label for="exampleInputEmail1" class="form-label">Review Title</label>
+      <input type="text" class="form-control" id="exampleInputEmail1" name="subject" aria-describedby="emailHelp" required>
+    </div>
+    <div class="mb-3 form-group">
+      <label for="exampleFormControlTextarea1" class="form-label">Review</label>
+      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="review" required></textarea>
+    </div>
+ {% if user.is_authenticated %}
+      <input type="submit" value="Submit Review" class="btn btn-primary p-3 " style="font-size:small">
+      {% else %}
+	<p>You must be logged in to post a review. </p>
+			{% endif %}
+  </form>
+</div>
+<!-- review end -->
+
+<div class="container mt-5">
+  <div>
+  <h1 class="fw-bolder">Customer Reviews</h1>
+ <!--          star start-->
+<!--          <div>-->
+<!--              <span class="fa fa-star checked"></span>-->
+<!--              <span class="fa fa-star checked"></span>-->
+<!--              <span class="fa fa-star checked"></span>-->
+<!--              <span class="fa fa-star"></span>-->
+<!--              <span class="fa fa-star"></span>-->
+<!--          </div>-->
+   <!--          star end-->
+
+  <hr>
+  </div>
+
+{% for review in reviews %}
+<!--  loop start-->
+  <div class="mt-3">
+  <div class="jumbotron jumbotron-fluid" >
+    <div class="container">
+       <div style="display: flex; justify-content: space-between;">
+         <div>
+         <h3 class="fw-bolder text-primary">{{ review.user.full_name }}</h3>
+         <!--          star start-->
+                    <div class="rating-star">
+                        <span>
+                            <i class="{% if review.rating >= 1 %} fas fa-star   {% endif %}  " aria-hidden="true"></i>
+                            <i class="{% if review.rating >= 2 %} fas fa-star   {% endif %}   " aria-hidden="true"></i>
+                            <i class="{% if review.rating >= 3 %} fas fa-star   {% endif %}  " aria-hidden="true"></i>
+                            <i class="{% if review.rating >= 4 %} fas fa-star  {% endif %}    " aria-hidden="true"></i>
+                            <i class="{% if review.rating == 5 %} fas fa-star   {% endif %}   " aria-hidden="true"></i>
+
+                              <i class="{% if review.rating == 0.5 %} fas fa-star-half  {% endif %}  " aria-hidden="true"></i>
+                             <i class="{% if review.rating == 1.5 %} fas fa-star-half  {% endif %}  " aria-hidden="true"></i>
+                             <i class="{% if review.rating == 2.5 %} fas fa-star-half  {% endif %}  " aria-hidden="true"></i>
+                             <i class="{% if review.rating == 3.5 %} fas fa-star-half  {% endif %}  " aria-hidden="true"></i>
+                             <i class="{% if review.rating == 4.5 %} fas fa-star-half  {% endif %}  " aria-hidden="true"></i>
+
+                        </span>
+                    </div>
+         <!--          star end-->
+
+       </div>
+       <div>{{ review.updated_at }}</div>
+      </div>
+      <div >
+        <div>
+        <h2>{{ review.subject }}</h2>
+        <p style="font-size: 1.5rem">{{ review.review }}</p>
+        <hr>
+   </div>
+   </div>
+   </div>
+  </div>
+</div>
+ {% endfor %}
+  <!--  loop end-->
+
+
+
+<!--//////////////////////////////////////////////////-->
+</div>
+
+{% endblock content%}

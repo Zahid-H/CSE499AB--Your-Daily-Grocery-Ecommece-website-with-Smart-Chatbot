@@ -1,0 +1,247 @@
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    
+}
+
+html{
+    font-size:62.5%;
+
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color:rgb(245, 242, 242);
+    font-size:1.3rem;
+}
+
+html{
+    font-size:62.5%;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+
+
+.myrow{
+    display:flex;
+    background-color:rgb(27, 2, 3) ;
+    flex-direction: row;
+    height: 6rem;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.mycol{
+font-size:2rem;
+text-decoration: none;
+color: white;
+font-weight: bold;
+}
+
+.mycol:hover{
+ color: gainsboro;
+}
+    
+
+.faq{
+    font-size:3rem;
+}
+
+.mal2{
+    display: none;
+}
+
+
+
+
+
+/* sideber */
+
+.sidenav{
+    background-color: rgb(37, 32, 32);
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding-top: 90px;
+    transition: all 0.5s;
+    text-align: center;
+    width: 0px;
+
+
+}
+.closebtn{
+  position: absolute;
+  top: 0;
+  left: 200px;
+  margin-top: 13px;
+}
+
+.sid li a{
+    text-decoration: none;
+    color: white;
+    padding-bottom: 2rem;
+}
+.sid li a:hover{
+
+    color:rgb(83, 74, 74) ;
+
+}
+
+.faqq{
+    font-size:3rem;
+    color:white;
+}
+
+.faqq:hover{
+    color:rgb(83, 74, 74) ;
+}
+
+
+
+.checked {
+  color: orange;
+}
+
+
+@media (max-width: 768px) {
+    html{
+        font-size:50%;
+    }
+  }
+
+@media(max-width: 600px) {
+
+    html{
+        font-size:40%;
+    }
+
+    .mal{
+        display:none;
+    }
+    .mal2{
+        display: block;
+    }
+    
+    
+  }
+
+
+
+/*chat*/
+.page-header {
+	background: #006A4E;
+	margin: 0;
+  padding: 20px 0 10px;
+	color: #FFFFFF;
+	position: fixed;
+	width: 100%;
+  z-index: 1
+}
+.main {
+	height: 100vh;
+	padding-top: 70px;
+}
+
+.chat-log {
+	padding: 40px 0 114px;
+	height: auto;
+	overflow: auto;
+}
+.chat-log__item {
+	background: #fafafa;
+	padding: 10px;
+	margin: 0 auto 20px;
+	max-width: 80%;
+	float: left;
+	border-radius: 4px;
+	box-shadow: 0 1px 2px rgba(0,0,0,.1);
+	clear: both;
+}
+
+.chat-log__item.chat-log__item--own {
+	float: right;
+	background: #DCF8C6;
+	text-align: right;
+}
+
+.chat-form {
+	background: #DDDDDD;
+	padding: 40px 0;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+}
+
+.chat-log__author {
+	margin: 0 auto .5em;
+	font-size: 1.5rem;
+	font-weight: bold;
+    color: #3d62f5;
+}
+.chat-log__message{
+    font-size: 1.5rem;
+}
+
+
+
+/*review rating er start er css*/
+
+.rate > input {
+    display: none;
+}
+
+.rate{
+    display: inline-block;
+    border: 0;
+}
+
+.rate > label {
+    float: right;
+}
+
+/* Show Stars */
+
+.rate > label::before{
+    content: '\f005';
+    display: inline-block;
+    font-size: 2rem;
+    font-family: FontAwesome;
+    margin: 0;
+    padding: 0.3rem .2rem;
+    cursor: pointer;
+    margin-top:5px;
+}
+
+/* Half Star */
+
+.rate .half::before{
+    content: '\f089';
+    position: absolute;
+    padding-right: 0;
+    font-family: FontAwesome;
+}
+
+/* click & hover */
+
+input:checked ~ label, label:hover ~ label{
+    color: #ffb503;
+}
+
+/* hover highlight */
+input:checked + label:hover, input:checked ~ label:hover, input:checked ~ label:hover ~ label, label:hover ~ input:checked ~ label {
+    color: #cc9000;
+}
+
+.rating-star{
+    color: #ffb503 !important;
+}
+

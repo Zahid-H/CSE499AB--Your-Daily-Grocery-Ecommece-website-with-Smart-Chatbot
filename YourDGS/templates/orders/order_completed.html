@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Order Complited {% endblock title %}
+
+
+
+{% block content %}
+
+<div class="container" style="margin-top: 50px;">
+    <center><i class="fas fa-check-circle" style="font-size: 72px;margin-bottom: 20px;color: #28A745;">
+    </i></center>
+    <h2 class="text-center fw-bolder">Order Confirmed</h2>
+	<br>
+	<div class="text-center">
+		<a href="{% url 'store' %}" class="btn btn-success" style="font-size: 1.3rem">Continue Shopping</a>
+	</div>
+</div>
+
+<div class="container" style="margin: 0 auto;width: 50%;padding: 50px;background: #f1f1f1;margin-top: 50px;margin-bottom: 50px;">
+    <div class="row invoice row-printable">
+        <div class="col-md-12">
+            <!-- col-lg-12 start here -->
+            <div class="panel panel-default plain" id="dash_0">
+                <!-- Start .panel -->
+                <div class="panel-body p30">
+                    <div class="row">
+                        <!-- Start .row -->
+                        <div class="col-lg-6">
+                            <!-- col-lg-6 start here -->
+                            <div class="invoice-logo text-danger "><h2 class="fw-bolder">Your Daily Grocery</h2></div>
+                        </div>
+                        <!-- col-lg-6 end here -->
+                        <div class="col-lg-6">
+                            <!-- col-lg-6 start here -->
+                            <div class="invoice-from">
+                                <ul class="list-unstyled text-center" style="font-size: 1.3rem">
+                                    <li><strong>Invoiced To</strong></li>
+                                    <li>{{ order.full_name }}</li>
+                                    <li>{{ order.full_address }}</li>
+                                    <li>{{ order.city }}, {{ order.state }}, {{ order.pin_code }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- col-lg-6 end here -->
+                        <div class="col-lg-12">
+                            <!-- col-lg-12 start here -->
+                            <div class="invoice-details mt25">
+                                <div class="well">
+                                    <ul class="list-unstyled mb0" style="font-size: 1.3rem">
+                                        <li><strong>Order</strong> #{{ order_number }}</li>
+                                        <li><strong>Transaction</strong> #{{ transID }}</li>
+                                        <li><strong>Order Date:</strong> {{ order.created_at }}</li>
+                                        <li><strong>Status:</strong> {{ payment.status }}</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="invoice-items">
+                                <div class="table-responsive" style="overflow: hidden; outline: none;" tabindex="0">
+                                    <table class="table .table-borderless" style="font-size: 1.3rem">
+                                        <thead>
+                                            <tr class="table-dark">
+                                                <th class="per70 text-center">Products</th>
+                                                <th class="per5 text-center">Qty</th>
+                                                <th class="per25 text-center">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for item in ordered_products %}
+                                            <tr>
+                                                <td>{{ item.product.product_name }}
+                                                    <p class="text-muted small">
+                                                        {% if item.variations.all %}
+                                                        {% for i in item.variations.all %}
+                                                        {{ i.variation_category | capfirst }} :
+                                                        {{ i.variation_value | capfirst }} <br>
+                                                        {% endfor %}
+                                                        {% endif %}
+                                                    </p>
+                                                </td>
+                                                <td class="text-center">{{ item.quantity }}</td>
+                                                <td class="text-center">Taka. {{ item.product_price }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                        <tfoot>
+                                            <tr class="table-warning">
+                                                <th colspan="2" class="text-right fw-bolder">Total Price:</th>
+                                                <th class="text-center">Taka. {{ sub_total }}</th>
+                                            </tr>
+                                            <tr class="table-warning">
+                                                <th colspan="2" class="text-right fw-bolder">Delivery Charge:</th>
+                                                <th class="text-center">Taka. {{ order.tax }}</th>
+                                            </tr>
+
+                                            <tr class="table-info">
+                                                <th colspan="2" class="text-right fw-bolder">Total Amount (Including Delivery Charge) :</th>
+                                                <th class="text-center fw-bolder text-danger">Taka. {{ order.order_total }} </th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="invoice-footer mt25">
+                                <br>
+                                <p class="text-center text-danger fw-bolder" style="font-size: 1.5rem">Here is your qr code.Please keep it secret.</p>
+                                <br>
+                                <div>
+                                    <img class="img-fluid" src="{{qrc.qr_code.url}}">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- col-lg-12 end here -->
+                    </div>
+                    <!-- End .row -->
+                </div>
+            </div>
+            <!-- End .panel -->
+        </div>
+        <!-- col-lg-12 end here -->
+    </div>
+    </div>
+
+{% endblock content%}

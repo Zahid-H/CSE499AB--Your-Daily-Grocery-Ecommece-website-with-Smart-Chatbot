@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Payments {% endblock title %}
+
+
+
+{% block content %}
+<div class="container my-5" style="font-size: 1.5rem;">
+  <div class="row">
+<!-- cart start -->
+
+    <div class="col-sm-8" style="border: 1px solid gray">
+    <div class="card" >
+     <div class="card-body mb-3 mt-5">
+
+
+         <hr>
+         <hr>
+
+      <!-- for loop -->
+        <div class="card my-2">
+        <div class="card-body">
+            <h1 class="card-text mb-0 text-center text-danger">Review Your Order & Make Payment</h1>
+        </div>
+        </div>
+
+
+    <div class="card my-2">
+        <h3 class="card-header fw-bolder text-danger">Billing Address</h3>
+        <div class="card-body">
+            <p class="card-text mb-0">{{order.full_name}}</p>
+            <p class="card-text mb-0">{{order.full_address}}</p>
+            <p class="card-text mb-0">{{order.city}}, {{order.state}}</p>
+            <p class="card-text mb-0">{{order.country}}</p>
+            <p class="card-text mb-0">{{order.email}}</p>
+            <p class="card-text mb-0">{{order.phone}}</p>
+            <p> <b>Order Number: </b> {{order.order_number}}</p>
+            {% if order.order_note %}
+            <b>Order Note: </b> {{order.order_note}}
+            {% endif %}
+        </div>
+      </div>
+
+
+      <div class="card my-2">
+        <h3 class="card-header fw-bolder text-danger ">Review Products</h3>
+        <div class="card-body">
+            <table class="table table-borderless table-shopping-cart">
+                <thead class="text-muted">
+                    <tr class="small text-uppercase" style="font-size: 1.5rem">
+                        <th scope="col">Product</th>
+                        <th scope="col" width="120">Quantity</th>
+                        <th scope="col" width="120">Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {% for cart_item in cart_items %}
+                    <tr>
+                        <td>
+                            <figure class="itemside align-items-center">
+                                <div class="aside"><img style="max-height: 8rem; max-width: 8rem;" src="{{ cart_item.product.image.url }}"
+                                        class="img-sm img-fluid"></div>
+                                <figcaption class="info">
+                                    <a href="{{ cart_item.product.get_url }}" class="title text-dark" style="font-size: 20px" >{{ cart_item.product.product_name }}</a>
+                                    <p class="text-muted small" style="font-size: 1rem">
+                                        {% if cart_item.variations.all %}
+                                        {% for item in cart_item.variations.all %}
+                                        {{ item.variation_category | capfirst }} :
+                                        {{ item.variation_value | capfirst }} <br>
+                                        {% endfor %}
+                                        {% endif %}
+                                    </p>
+                                </figcaption>
+                            </figure>
+                        </td>
+                        <td>
+                            <!-- col.// -->
+                            <label style="font-size: 1.5rem">{{cart_item.quantity}}</label>
+                        </td>
+                        <td>
+                            <div class="price-wrap">
+                                <var class="price" style="font-size: 1.5rem">Taka.{{ cart_item.sub_total }}/</var>
+                                <small class="text-muted" style="font-size: 1.5rem"> Taka.{{ cart_item.product.price }} each </small>
+                            </div> <!-- price-wrap .// -->
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+      </div>
+<!-- for loop end -->
+
+
+     </div>
+    </div>
+  </div>
+  <!-- cart end-->
+
+
+  <!-- count start -->
+  <div class="col-sm-4">
+    <div class="card" >
+     <div class="card-body mt-5 mb-5">
+       <h3>The Total Amount of</h3>
+       <ul class="list-group">
+        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0  pb-0">Amount<span>Tk. <span id="amount"> {{total}} </span></span></li>
+        <li class="list-group-item d-flex justify-content-between align-items-center px-0 border-0 border-bottom" >Shipping<span>Tk.{{tax}}</span></li>
+        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+         <div>
+            <strong>Total</strong> <small>(including VAT)</small>
+          </div>
+          <span><strong>Tk. <span id="totalamount">{{total|add:50 }}</span> </strong></span>
+        </li>
+       </ul>
+<!--submit section-->
+
+       <div class="d-grid">
+           <form action="{% url 'payments' %}" method="POST">
+             {% csrf_token %}
+
+
+
+         <input type="text" name="order_number"  value="{{order.order_number}}" hidden>
+
+
+
+
+ <!--submit section end-->
+           <button type="submit" value="submit" class="btn btn-success d-block mx-auto" style="font-size: 1.3rem; ">Confirm Order</button>
+
+         </form>
+       </div>
+
+
+     </div>
+    </div>
+   </div>
+  </div>
+ </div>
+
+   <!-- count end -->
+
+ <!-- we accept part -->
+
+ <div class="container">
+  <div class="row">
+   <div class="col-sm-8">
+    <div class="card">
+     <div class="card-body">
+       <h5 class="mb-4 fw-bolder">We accept</h5>
+       <img src="{% static 'images/payments.png' %}" alt="" class="img-fluid">
+     </div>
+   </div>
+   </div>
+  </div>
+ </div>
+
+
+
+
+{% endblock content%}
