@@ -14,7 +14,7 @@ constantly==15.1.0
 cryptography==35.0.0
 daphne==3.0.2
 dj-database-url==0.5.0
-Django==3.2.6
+Django==3.2.20
 django-3-jet==1.0.8
 django-admin-black==0.0.1
 django-ckeditor==6.1.0
